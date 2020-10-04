@@ -8,3 +8,5 @@
 - link:
     ~/.vim: vim
     ~/.vimrc: vimrc
+    ~/.zsh: zsh
+    ~/.zshrc: zshrc
