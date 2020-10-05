@@ -6,7 +6,13 @@
       relink: true
 
 - link:
+    # Vim
     ~/.vim: vim
     ~/.vimrc: vimrc
+    ~/.config/coc/extensions: vim/config/coc/extensions
+    # zsh
     ~/.zsh: zsh
     ~/.zshrc: zshrc
+
+- shell:
+    - [scripts/setup_coc.sh, Installing coc.nvim npm packages]

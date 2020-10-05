@@ -1,9 +1,14 @@
+"----------
+" Functions
+"----------
+source ~/.vim/config/functions.vim
+
 "-----------------
 " General Settings
 "-----------------
 set autoindent
 set expandtab
-set nu
+set number
 set shiftwidth=2
 set smartindent
 set tabstop=2
@@ -15,10 +20,15 @@ colorscheme gruvbox
 "------------------
 autocmd BufNewFile,BufRead *.rs source ~/.vim/ftplugin/rust.vim
 
+"---------
+" Vim Plug
+"---------
+call plug#begin('~/.vim/plugged')
+source ~/.vim/config/plugin_list.vim
+call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
+call plug#end()
+
 "--------------------
 " Local Configuration
 "--------------------
-let $LOCALFILE=expand("~/.vimrc_local")
-if filereadable($LOCALFILE)
-  source $LOCALFILE
-endif
+call SourceLocalFile("~/.vimrc_local")
