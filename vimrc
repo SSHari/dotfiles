@@ -6,13 +6,11 @@ source ~/.vim/config/functions.vim
 "-----------------
 " General Settings
 "-----------------
-set autoindent
-set expandtab
-set number
-set shiftwidth=2
-set smartindent
-set tabstop=2
-syntax on
+source ~/.vim/config/general.vim
+
+"---------------
+" Theme Settings
+"---------------
 colorscheme gruvbox
 
 "------------------
