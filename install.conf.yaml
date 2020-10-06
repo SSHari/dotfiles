@@ -6,7 +6,9 @@
       relink: true
 
 - link:
-    # Vim
+    # tmux
+    ~/.tmux.conf: tmux.conf
+    # vim
     ~/.vim: vim
     ~/.vimrc: vimrc
     ~/.config/coc/extensions: vim/config/coc/extensions
