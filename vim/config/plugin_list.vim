@@ -4,6 +4,7 @@
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 
 "--------------
