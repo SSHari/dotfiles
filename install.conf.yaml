@@ -12,6 +12,8 @@
     ~/.vim: vim
     ~/.vimrc: vimrc
     ~/.config/coc/extensions: vim/config/coc/extensions
+    # nvim
+    ~/.config/nvim/init.vim: init.vim
     # zsh
     ~/.zsh: zsh
     ~/.zshrc: zshrc
