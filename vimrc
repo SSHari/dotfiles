@@ -8,11 +8,6 @@ source ~/.vim/config/functions.vim
 "-----------------
 source ~/.vim/config/general.vim
 
-"---------------
-" Theme Settings
-"---------------
-colorscheme gruvbox
-
 "------------------
 " File Type Plugins
 "------------------
@@ -25,6 +20,11 @@ call plug#begin('~/.vim/plugged')
 source ~/.vim/config/plugin_list.vim
 call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
 call plug#end()
+
+"---------------
+" Theme Settings
+"---------------
+colorscheme gruvbox
 
 "--------------------
 " Local Configuration
