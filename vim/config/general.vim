@@ -3,6 +3,7 @@
 "--------------
 set background=dark
 set number
+set relativenumber
 set ruler
 set splitbelow
 set splitright
@@ -12,6 +13,8 @@ syntax on
 " Fold Settings
 "--------------
 set foldmethod=indent
+" Expand all folds by default
+autocmd BufNewFile,BufRead * normal zR
 
 "----------------
 " Search Settings

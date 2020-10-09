@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "coc-prettier": "^1.1.17",
-    "coc-tsserver": ">=1.5.8"
+    "coc-prettier": "^1.1.17"
   }
 }

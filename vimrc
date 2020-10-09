@@ -16,15 +16,7 @@ autocmd BufNewFile,BufRead *.rs source ~/.vim/ftplugin/rust.vim
 "---------
 " Vim Plug
 "---------
-call plug#begin('~/.vim/plugged')
-source ~/.vim/config/plugin_list.vim
-call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
-call plug#end()
-
-"---------------
-" Theme Settings
-"---------------
-colorscheme gruvbox
+source ~/.vim/config/plugins.vim
 
 "--------------------
 " Local Configuration
