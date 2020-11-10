@@ -7,6 +7,8 @@ if has('nvim')
   Plug 'nvim-lua/completion-nvim'
   Plug 'nvim-lua/diagnostic-nvim'
 endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -18,6 +20,12 @@ call plug#end()
 "--------------
 " Configuration
 "--------------
+" fzf
+nnoremap <leader>p :GFiles<CR>
+nnoremap <leader>P :Files<CR>
+nnoremap <leader>H :Helptags!<CR>
+nnoremap <leader>/ :Rg<CR>
+
 " theme
 colorscheme gruvbox
 
