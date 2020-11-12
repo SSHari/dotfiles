@@ -21,8 +21,10 @@ call plug#end()
 " Configuration
 "--------------
 " fzf
-nnoremap <leader>p :GFiles<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>l :BLines<CR>
 nnoremap <leader>P :Files<CR>
+nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>H :Helptags!<CR>
 nnoremap <leader>/ :Rg<CR>
 
