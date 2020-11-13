@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/completion-nvim'
-  Plug 'nvim-lua/diagnostic-nvim'
 endif
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -38,14 +37,26 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 if has('nvim')
   set completeopt=menuone,noinsert,noselect
 
-  nnoremap <leader>d <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+  nnoremap <leader>g <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap <leader>d <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+  nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+  nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 " This needs to start at the beginning of the line (i.e. No TAB)
 lua << EOF
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = false,
+      signs = true,
+      update_in_insert = true,
+    }
+  )
+
   local on_attach_vim = function(client)
     require'completion'.on_attach(client)
-    require'diagnostic'.on_attach(client)
   end
+
   require'nvim_lsp'.tsserver.setup{on_attach=on_attach_vim}
 EOF
 endif
