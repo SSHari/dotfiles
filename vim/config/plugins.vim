@@ -38,6 +38,7 @@ if has('nvim')
   set completeopt=menuone,noinsert,noselect
 
   nnoremap <leader>g <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap <leader>i <cmd>lua vim.lsp.buf.hover()<CR>
   nnoremap <leader>d <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
   nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
   nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>

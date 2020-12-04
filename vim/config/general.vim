@@ -13,6 +13,7 @@ syntax on
 " Fold Settings
 "--------------
 set foldmethod=indent
+set nofoldenable
 " Expand all folds by default
 autocmd BufNewFile,BufRead * normal zR
 
