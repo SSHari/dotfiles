@@ -1,3 +1,4 @@
 .netrwhist
 plugged
 config/plugin_list_local.vim
+undodir

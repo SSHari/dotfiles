@@ -1,9 +1,12 @@
-- clean: ['~']
+- clean: ["~"]
 
 - defaults:
     link:
       create: true
       relink: true
+
+- create:
+    - ~/.vim/undodir
 
 - link:
     # tmux
