@@ -13,6 +13,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'vim-airline/vim-airline'
 Plug 'gruvbox-community/gruvbox'
+Plug 'tpope/vim-vinegar'
 call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
 call plug#end()
 
