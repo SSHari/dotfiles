@@ -11,8 +11,8 @@ source ~/.vim/config/general.vim
 "------------------
 " File Type Plugins
 "------------------
-autocmd BufNewFile,BufRead *.rs source ~/.vim/ftplugin/rust.vim
 autocmd BufNewFile,BufRead *.ex,*.exs source ~/.vim/ftplugin/elixir.vim
+autocmd BufNewFile,BufRead *.rs source ~/.vim/ftplugin/rust.vim
 
 "---------
 " Vim Plug

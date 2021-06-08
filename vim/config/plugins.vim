@@ -48,37 +48,5 @@ if has('nvim')
   nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
   nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
-" This needs to start at the beginning of the line (i.e. No TAB)
-lua << EOF
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = false,
-      signs = true,
-      update_in_insert = true,
-    }
-  )
-
-  local on_attach_vim = function(client)
-    require'completion'.on_attach(client)
-  end
-
-  require'lspconfig'.elixirls.setup{
-    -- Replace ~ with the absolute path to the executable
-    cmd={"~/.vim/language-servers/elixir-ls/language_server.sh"};
-    on_attach=on_attach_vim
-  }
-
-  require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
-
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "tsx", "typescript" },
-    highlight = {
-      enable = true
-    },
-    indent = {
-      enable = true
-    }
-  }
-EOF
+  :luafile ~/.vim/config/plugins.lua
 endif

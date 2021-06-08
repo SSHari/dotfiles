@@ -2,3 +2,9 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "submodules/lua-language-server"]
+	path = submodules/lua-language-server
+	url = https://github.com/sumneko/lua-language-server
+[submodule "submodules/--force"]
+	path = submodules/--force
+	url = https://github.com/sumneko/lua-language-server
