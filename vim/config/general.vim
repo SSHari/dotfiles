@@ -7,6 +7,7 @@ set relativenumber
 set ruler
 set splitbelow
 set splitright
+set termguicolors
 set undodir=~/.vim/undodir
 set undofile
 syntax on
