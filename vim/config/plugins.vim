@@ -14,6 +14,7 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'vim-airline/vim-airline'
 Plug 'gruvbox-community/gruvbox'
 Plug 'tpope/vim-vinegar'
+Plug 'elixir-editors/vim-elixir'
 call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
 call plug#end()
 
@@ -59,6 +60,11 @@ lua << EOF
     require'completion'.on_attach(client)
   end
 
+  require'lspconfig'.elixirls.setup{
+    -- Replace ~ with the absolute path to the executable
+    cmd={"~/.vim/language-servers/elixir-ls/language_server.sh"};
+    on_attach=on_attach_vim
+  }
   require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
 EOF
 endif

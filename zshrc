@@ -6,6 +6,9 @@ fi
 # Configure Settings
 source ~/.zsh/settings.zsh
 
+# Configure Completions
+source ~/.zsh/completions.zsh
+
 # Configure Prompt
 source ~/.zsh/prompt.zsh
 
