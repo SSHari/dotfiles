@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/completion-nvim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 endif
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -65,6 +66,17 @@ lua << EOF
     cmd={"~/.vim/language-servers/elixir-ls/language_server.sh"};
     on_attach=on_attach_vim
   }
+
   require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
+
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "tsx", "typescript" },
+    highlight = {
+      enable = true
+    },
+    indent = {
+      enable = true
+    }
+  }
 EOF
 endif
