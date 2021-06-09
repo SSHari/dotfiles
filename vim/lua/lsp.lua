@@ -17,7 +17,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 require'lspconfig'.elixirls.setup {
     cmd = {
         utils.get_path_with_home(
-            ".vim/language-servers/elixir-ls/language_server.sh")
+            ".config/nvim/elixirls/language_server/language_server.sh")
     },
     on_attach = on_attach_vim
 }
