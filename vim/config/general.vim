@@ -40,3 +40,8 @@ set tabstop=2
 " Key Mappings
 "-------------
 let mapleader="\<Space>"
+
+"-------------
+" Source VimRC
+"-------------
+autocmd BufWritePost ~/.dotfiles/vimrc,~/.dotfiles/vim/* source ~/.vimrc

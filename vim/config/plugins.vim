@@ -14,6 +14,7 @@ if has('nvim')
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
 endif
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'leafgarland/typescript-vim'
@@ -44,6 +45,7 @@ if has('nvim')
   nnoremap <leader>p :Telescope git_files<CR>
   nnoremap <leader>H :Telescope help_tags<CR>
   nnoremap <leader>/ :Telescope live_grep<CR>
+  nnoremap <leader>dot :lua require('_telescope').search_dotfiles()<CR>
 
   " lsp config
   set completeopt=menuone,noinsert,noselect
