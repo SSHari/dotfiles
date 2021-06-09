@@ -19,6 +19,13 @@ autocmd BufNewFile,BufRead *.rs source ~/.vim/ftplugin/rust.vim
 "---------
 source ~/.vim/config/plugins.vim
 
+"------------------
+" Lua Configuration
+"------------------
+if has('nvim')
+  lua require('init')
+endif
+
 "--------------------
 " Local Configuration
 "--------------------

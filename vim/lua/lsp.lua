@@ -1,12 +1,7 @@
 -- Local Variables and Functions
-USER = vim.fn.expand("$USER")
-
+local utils = require('utils')
 local on_attach_vim = function(client)
     require'completion'.on_attach(client)
-end
-
-local get_path_with_home = function(path)
-    return "/home/" .. USER .. "/" .. path
 end
 
 -- Diagnostics
@@ -18,17 +13,21 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
         update_in_insert = true
     })
 
--- LSP Setup
+-- Elixir LSP
 require'lspconfig'.elixirls.setup {
     cmd = {
-        get_path_with_home(".vim/language-servers/elixir-ls/language_server.sh")
+        utils.get_path_with_home(
+            ".vim/language-servers/elixir-ls/language_server.sh")
     },
     on_attach = on_attach_vim
 }
 
+-- TypeScript LSP
 require'lspconfig'.tsserver.setup {on_attach = on_attach_vim}
 
-local sumneko_root_path = get_path_with_home(".config/nvim/lua-language-server")
+-- Lua LSP
+local sumneko_root_path = utils.get_path_with_home(
+                              ".config/nvim/lua-language-server")
 local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
 require'lspconfig'.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
@@ -48,7 +47,7 @@ require'lspconfig'.sumneko_lua.setup {
     }
 }
 
-local lua_format = get_path_with_home(
+local lua_format = utils.get_path_with_home(
                        ".asdf/installs/lua/5.4.3/luarocks/lib/luarocks/rocks-5.4/luaformatter/scm-1/bin/lua-format")
 require'lspconfig'.efm.setup {
     init_options = {documentFormatting = true},
@@ -65,11 +64,4 @@ require'lspconfig'.efm.setup {
             }
         }
     }
-}
-
--- TreeSitter Setup
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"lua", "tsx", "typescript"},
-    highlight = {enable = true},
-    indent = {enable = true}
 }
