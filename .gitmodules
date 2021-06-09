@@ -2,6 +2,6 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
-[submodule "submodules/lua-language-server"]
-	path = submodules/lua-language-server
+[submodule "config/nvim/lua-language-server"]
+	path = config/nvim/lua-language-server
 	url = https://github.com/sumneko/lua-language-server

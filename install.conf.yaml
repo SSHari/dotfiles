@@ -17,8 +17,7 @@
     ~/.vimrc: vimrc
     ~/.config/coc/extensions: vim/config/coc/extensions
     # nvim
-    ~/.config/nvim/init.vim: init.vim
-    ~/.config/nvim/lua-language-server: submodules/lua-language-server
+    ~/.config/nvim: config/nvim
     # zsh
     ~/.zsh: zsh
     ~/.zshrc: zshrc
