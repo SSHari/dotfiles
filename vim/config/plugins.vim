@@ -6,9 +6,10 @@ if has('nvim')
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/completion-nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
 endif
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -24,13 +25,13 @@ call plug#end()
 "--------------
 " Configuration
 "--------------
-" fzf
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>l :BLines<CR>
-nnoremap <leader>P :Files<CR>
-nnoremap <leader>p :GFiles<CR>
-nnoremap <leader>H :Helptags!<CR>
-nnoremap <leader>/ :Rg<CR>
+" Telescope
+nnoremap <leader>b :Telescope buffers<CR>
+nnoremap <leader>l :Telescope current_buffer_fuzzy_find<CR>
+nnoremap <leader>P :Telescope find_files<CR>
+nnoremap <leader>p :Telescope git_files<CR>
+nnoremap <leader>H :Telescope help_tags<CR>
+nnoremap <leader>/ :Telescope live_grep<CR>
 
 " theme
 colorscheme melange
