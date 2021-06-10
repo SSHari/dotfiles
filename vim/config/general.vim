@@ -17,8 +17,6 @@ syntax on
 "--------------
 set foldmethod=indent
 set nofoldenable
-" Expand all folds by default
-autocmd BufNewFile,BufRead * normal zR
 
 "----------------
 " Search Settings
@@ -41,7 +39,13 @@ set tabstop=2
 "-------------
 let mapleader="\<Space>"
 
-"-------------
-" Source VimRC
-"-------------
-autocmd BufWritePost ~/.dotfiles/vimrc,~/.dotfiles/vim/* source ~/.vimrc
+"--------------------
+" GeneralAutoCommands
+"--------------------
+augroup VimRCGeneral
+  autocmd!
+  " Source VimRC on updates
+  autocmd BufWritePost ~/.dotfiles/vimrc,~/.dotfiles/vim/* source ~/.vimrc
+  " Expand all folds by default
+  autocmd BufNewFile,BufRead * normal zR
+augroup END
