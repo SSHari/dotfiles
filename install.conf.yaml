@@ -15,12 +15,8 @@
     # vim
     ~/.vim: vim
     ~/.vimrc: vimrc
-    ~/.config/coc/extensions: vim/config/coc/extensions
     # nvim
     ~/.config/nvim: config/nvim
     # zsh
     ~/.zsh: zsh
     ~/.zshrc: zshrc
-
-- shell:
-    - [scripts/setup_coc.sh, Installing coc.nvim npm packages]

@@ -16,7 +16,6 @@ if has('nvim')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
 endif
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'vim-airline/vim-airline'
@@ -33,9 +32,6 @@ call plug#end()
 "--------------
 " theme
 colorscheme melange
-
-" coc-prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 if has('nvim')
   " Telescope

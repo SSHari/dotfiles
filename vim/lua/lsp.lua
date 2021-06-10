@@ -1,6 +1,9 @@
 -- Local Variables and Functions
+local lspconfig = require('lspconfig')
 local utils = require('utils')
-local on_attach_vim = function(client)
+
+-- TODO: Attach the keybindings to the buffer here instead
+local on_attach = function(client, bufnr)
     require'completion'.on_attach(client)
 end
 
@@ -14,23 +17,32 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
     })
 
 -- Elixir LSP
-require'lspconfig'.elixirls.setup {
+lspconfig.elixirls.setup {
     cmd = {
         utils.get_path_with_home(
             ".config/nvim/elixirls/language_server/language_server.sh")
     },
-    on_attach = on_attach_vim
+    on_attach = on_attach
 }
 
 -- TypeScript LSP
-require'lspconfig'.tsserver.setup {on_attach = on_attach_vim}
+lspconfig.tsserver.setup {
+    on_attach = function(client, bufnr)
+        -- Disable typescript formatting in favor of prettier
+        client.resolved_capabilities.document_formatting = false
+
+        on_attach(client, bufnr)
+    end,
+    settings = {documentFormatting = false}
+}
 
 -- Lua LSP
 local sumneko_root_path = utils.get_path_with_home(
                               ".config/nvim/lua-language-server")
 local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
-require'lspconfig'.sumneko_lua.setup {
+lspconfig.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+    on_attach = on_attach,
     settings = {
         Lua = {
             runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
@@ -47,21 +59,29 @@ require'lspconfig'.sumneko_lua.setup {
     }
 }
 
+-- EFM LSP
 local lua_format = utils.get_path_with_home(
                        ".asdf/installs/lua/5.4.3/luarocks/lib/luarocks/rocks-5.4/luaformatter/scm-1/bin/lua-format")
-require'lspconfig'.efm.setup {
-    init_options = {documentFormatting = true},
-    filetypes = {"lua"},
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            lua = {
-                {
-                    formatCommand = lua_format
-                        .. " -i --no-keep-simple-function-one-line --no-break-after-operator --break-after-table-lb",
-                    formatStdin = true
-                }
-            }
+local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
+
+local efm_languages = {
+    lua = {
+        {
+            formatCommand = lua_format
+                .. " -i --no-keep-simple-function-one-line --no-break-after-operator --break-after-table-lb",
+            formatStdin = true
         }
+    },
+    -- TODO: Replace CocPrettier with this, but figure out why this breaks Telescope in TypeScript projects...
+    typescript = {{formatCommand = prettier, formatStdin = true}},
+    typescriptreact = {{formatCommand = prettier, formatStdin = true}}
+}
+
+lspconfig.efm.setup {
+    init_options = {documentFormatting = true},
+    filetypes = vim.tbl_keys(efm_languages),
+    settings = {
+        rootMarkers = {".git/", "package.json"},
+        languages = efm_languages
     }
 }
