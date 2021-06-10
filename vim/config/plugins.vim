@@ -16,12 +16,13 @@ if has('nvim')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
 endif
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'vim-airline/vim-airline'
+
+" Themes
 Plug 'gruvbox-community/gruvbox'
 Plug 'folke/tokyonight.nvim'
 Plug 'savq/melange'
+
+Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-vinegar'
 Plug 'elixir-editors/vim-elixir'
 call SourceLocalFile("~/.vim/config/plugin_list_local.vim")
