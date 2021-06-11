@@ -45,7 +45,13 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 -- Elixir LSP
 lspconfig.elixirls.setup {
     cmd = {utils.get_path_with_home(".config/nvim/elixirls/language_server/language_server.sh")},
-    on_attach = on_attach
+    on_attach = function(client, bufnr)
+        -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
+        if vim.bo.filetype == 'eelixir' then
+            client.resolved_capabilities.document_formatting = false
+        end
+        on_attach(client, bufnr)
+    end
 }
 
 -- TypeScript LSP
@@ -85,8 +91,10 @@ lspconfig.sumneko_lua.setup {
 local lua_format = utils.get_path_with_home(
                        ".asdf/installs/lua/5.4.3/luarocks/lib/luarocks/rocks-5.4/luaformatter/scm-1/bin/lua-format")
 local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
+local html_beautifier = utils.get_path_with_home(".asdf/installs/ruby/3.0.1/bin/htmlbeautifier")
 
 local efm_languages = {
+    eelixir = {{formatCommand = html_beautifier, formatStdin = true}},
     lua = {
         {
             formatCommand = lua_format
