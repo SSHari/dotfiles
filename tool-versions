@@ -1,0 +1,12 @@
+bat 0.18.1
+elixir 1.12.1-otp-24
+erlang 24.0.2
+fd 8.2.1
+golang 1.16.5
+hub v2.14.2
+lua 5.4.3
+neovim nightly
+nodejs 14.17.0
+postgres 13.3
+ripgrep 12.1.1
+ruby 3.0.1

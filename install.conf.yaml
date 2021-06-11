@@ -10,6 +10,8 @@
     - ~/.vim/undodir
 
 - link:
+    # asdf
+    ~/.tool-versions: tool-versions
     # tmux
     ~/.tmux.conf: tmux.conf
     # vim

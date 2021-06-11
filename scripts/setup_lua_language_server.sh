@@ -12,7 +12,7 @@ fi
 # Navigate to Lua Language Server
 cd ~/.config/nvim/lua-language-server
 
-# Install Lua Language Server
+# Install Lua Language Server (https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone))
 git submodule update --init --recursive
 cd 3rd/luamake
 ./compile/install.sh
