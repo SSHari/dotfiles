@@ -8,6 +8,10 @@ sudo apt install -y curl git
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
 
 ##### Get asdf plugins
+# Set up aws cli
+sudo apt-get -y install curl tar unzip
+asdf plugin-add awscli
+asdf plugin-add aws-iam-authenticator https://github.com/stefansedich/asdf-aws-iam-authenticator
 asdf plugin-add bat
 # Set up erlang
 sudo apt-get -y install build-essential autoconf m4 libncurses5-dev libwxgtk3.0-gtk3-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev openjdk-11-jdk
@@ -18,6 +22,7 @@ asdf plugin-add fd
 sudo apt -y install coreutils
 asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
 asdf plugin-add hub
+asdf plugin-add kubectl https://github.com/Banno/asdf-kubectl.git
 # Set up lua
 sudo apt-get -y install linux-headers-$(uname -r) build-essential
 asdf plugin-add lua https://github.com/Stratus3D/asdf-lua.git
@@ -36,6 +41,9 @@ asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
 ##### Install asdf plugins
 cd ~
 asdf install # Installs versions based on global .tool-versions file
+
+##### Install Okteto Cli
+curl https://get.okteto.com -sSfL | sh
 
 ##### Source zshrc file to make sure above tools are available
 source ~/.zshrc

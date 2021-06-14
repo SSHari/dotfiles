@@ -1,9 +1,12 @@
+awscli 2.2.11
+aws-iam-authenticator 0.5.3
 bat 0.18.1
 elixir 1.12.1-otp-24
 erlang 24.0.2
 fd 8.2.1
 golang 1.16.5
 hub v2.14.2
+kubectl 1.21.1
 lua 5.4.3
 neovim nightly
 nodejs 14.17.0
