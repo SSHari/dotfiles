@@ -33,6 +33,9 @@ local on_attach = function(client, bufnr)
     -- Enable manual completion via <c-x><c-o>
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+    -- Disable Highlight in favor of TreeSitter
+    client.resolved_capabilities.document_highlight = false
+
     -- Enable auto completion
     require'completion'.on_attach(client)
 end
