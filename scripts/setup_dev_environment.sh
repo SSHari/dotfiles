@@ -53,8 +53,10 @@ go get github.com/mattn/efm-langserver
 npm install -g typescript-language-server vim-language-server
 # Build lua language server and set up formatter
 sudo apt-get -y install ninja
-zsh ~/.dotfiles/scripts/setup_lua_language_server.sh
+~/.dotfiles/scripts/setup_lua_language_server.sh
 luarocks install --server=https://luarocks.org/dev luaformatter
+# Build Elixir language server
+~/.dotfiles/scripts/setup_elixir_language_server.sh
 
 ##### Set up htmlbeautifier for eelixir template formatting
 gem install htmlbeautifier

@@ -5,6 +5,7 @@
 [submodule "config/nvim/lua-language-server"]
 	path = config/nvim/lua-language-server
 	url = https://github.com/sumneko/lua-language-server
-[submodule "config/nvim/elixirls"]
-	path = config/nvim/elixirls
-	url = https://github.com/SSHari/elixirls.git
+[submodule "config/nvim/elixir-language-server"]
+	path = config/nvim/elixir-language-server
+	url = https://github.com/elixir-lsp/elixir-ls.git
+	ignore = dirty

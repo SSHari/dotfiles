@@ -47,7 +47,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 
 -- Elixir LSP
 lspconfig.elixirls.setup {
-    cmd = {utils.get_path_with_home(".config/nvim/elixirls/language_server/language_server.sh")},
+    cmd = {
+        utils.get_path_with_home(
+            ".config/nvim/elixir-language-server/language_server/language_server.sh")
+    },
     on_attach = function(client, bufnr)
         -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
         if vim.bo.filetype == 'eelixir' then
