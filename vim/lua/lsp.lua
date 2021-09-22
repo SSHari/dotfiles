@@ -53,9 +53,7 @@ lspconfig.elixirls.setup {
     },
     on_attach = function(client, bufnr)
         -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
-        if vim.bo.filetype == 'eelixir' then
-            client.resolved_capabilities.document_formatting = false
-        end
+        client.resolved_capabilities.document_formatting = vim.bo.filetype ~= 'eelixir'
         on_attach(client, bufnr)
     end
 }
