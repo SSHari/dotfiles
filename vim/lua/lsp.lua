@@ -1,7 +1,9 @@
 -- Local Variables and Functions
+local cmp = require('cmp')
 local lspconfig = require('lspconfig')
 local utils = require('utils')
 
+-- Set up on base attach function
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -35,15 +37,42 @@ local on_attach = function(client, bufnr)
 
     -- Disable Highlight in favor of TreeSitter
     client.resolved_capabilities.document_highlight = false
-
-    -- Enable auto completion
-    require'completion'.on_attach(client)
 end
+
+-- Set up nvim-cmp
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' }
+  }, {
+    { name = 'buffer' }
+  })
+})
 
 -- Diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
                  {underline = true, virtual_text = false, signs = true, update_in_insert = true})
+
+-- Capabilities
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 
 -- Elixir LSP
 lspconfig.elixirls.setup {
@@ -55,7 +84,8 @@ lspconfig.elixirls.setup {
         -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
         client.resolved_capabilities.document_formatting = vim.bo.filetype ~= 'eelixir'
         on_attach(client, bufnr)
-    end
+    end,
+    capabilities = capabilities
 }
 
 -- TypeScript LSP
@@ -66,7 +96,8 @@ lspconfig.tsserver.setup {
 
         on_attach(client, bufnr)
     end,
-    settings = {documentFormatting = false}
+    settings = {documentFormatting = false},
+    capabilities = capabilities
 }
 
 -- Lua LSP
@@ -75,6 +106,7 @@ local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
 lspconfig.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
     on_attach = on_attach,
+    capabilities = capabilities,
     settings = {
         Lua = {
             runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
@@ -106,15 +138,31 @@ local efm_languages = {
             formatStdin = true
         }
     },
+    javascript = {{formatCommand = prettier, formatStdin = true}},
+    javascriptreact = {{formatCommand = prettier, formatStdin = true}},
     typescript = {{formatCommand = prettier, formatStdin = true}},
-    typescriptreact = {{formatCommand = prettier, formatStdin = true}}
+    typescriptreact = {{formatCommand = prettier, formatStdin = true}},
+    mdx = {{formatCommand = prettier, formatStdin = true}}
 }
 
 lspconfig.efm.setup {
     init_options = {documentFormatting = true},
     filetypes = vim.tbl_keys(efm_languages),
-    settings = {rootMarkers = {".git/", "package.json"}, languages = efm_languages}
+    settings = {rootMarkers = {".git/", "package.json"}, languages = efm_languages},
+    capabilities = capabilities
 }
 
 -- Vim LSP
-lspconfig.vimls.setup {on_attach = on_attach}
+lspconfig.vimls.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- Golang LSP
+lspconfig.gopls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    gopls = {
+      analyses = {unusedparams = true},
+      staticcheck = true
+    }
+  }
+}

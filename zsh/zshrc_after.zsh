@@ -6,7 +6,7 @@ alias dotfiles='cd ~/.dotfiles'
 alias luamake='~/.config/nvim/lua-language-server/3rd/luamake/luamake'
 
 # Install latest nightly neovim
-alias update-nvim-nightly='asdf uninstall neovim nightly && asdf install neovim nightly'
+alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'
 
 # Functions
 function global() {
@@ -23,3 +23,11 @@ source $HOME/.asdf/asdf.sh
 # Set nvim as the default editor
 export EDITOR='nvim'
 export VISUAL='nvim'
+
+# Set up kubectl
+source <(kubectl completion zsh)
+alias k=kubectl
+compdef __start_kubectl k
+
+# Set up helm
+source <(helm completion zsh)

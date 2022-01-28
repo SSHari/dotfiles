@@ -50,6 +50,7 @@ source ~/.zshrc
 
 ##### Setup language servers
 go get github.com/mattn/efm-langserver
+asdf reshim golang
 npm install -g typescript-language-server vim-language-server
 # Build lua language server and set up formatter
 sudo apt-get -y install ninja
