@@ -18,7 +18,7 @@ function global() {
 PATH="$HOME/.bin:$PATH"
 
 # Setup asdf
-source $HOME/.asdf/asdf.sh
+source /usr/local/opt/asdf/libexec/asdf.sh
 
 # Set nvim as the default editor
 export EDITOR='nvim'
@@ -31,3 +31,7 @@ compdef __start_kubectl k
 
 # Set up helm
 source <(helm completion zsh)
+
+# Set Neovim OS for internal config (Linux or macOS)
+# Set in zshrc_local_after
+# export NEOVIM_OS='macOS'

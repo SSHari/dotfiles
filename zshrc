@@ -24,3 +24,4 @@ if [ -f ~/.zshrc_local_after ]; then
 fi
 
 autoload -U +X bashcompinit && bashcompinit
+
