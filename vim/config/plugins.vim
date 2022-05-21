@@ -24,6 +24,9 @@ if has('nvim')
 
   " Language plugins
   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+  " Workflow plugins
+  Plug 'ThePrimeagen/git-worktree.nvim'
 endif
 
 " Themes
@@ -52,6 +55,10 @@ if has('nvim')
   nnoremap <leader>H :Telescope help_tags<CR>
   nnoremap <leader>/ :Telescope live_grep<CR>
   nnoremap <leader>dot :lua require('_telescope').search_dotfiles()<CR>
+
+  " Git Worktrees
+  nnoremap <leader>gw :lua require('telescope').extensions.git_worktree.git_worktrees()<CR>
+  nnoremap <leader>cgw :lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>
 
   " lsp config
   set completeopt=menuone,noinsert,noselect
