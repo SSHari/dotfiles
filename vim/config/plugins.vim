@@ -27,6 +27,7 @@ if has('nvim')
 
   " Workflow plugins
   Plug 'ThePrimeagen/git-worktree.nvim'
+  Plug 'ThePrimeagen/harpoon'
 endif
 
 " Themes
@@ -59,6 +60,12 @@ if has('nvim')
   " Git Worktrees
   nnoremap <leader>gw :lua require('telescope').extensions.git_worktree.git_worktrees()<CR>
   nnoremap <leader>cgw :lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>
+
+  " Harpoon
+  nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
+  nnoremap <leader>hu :lua require("harpoon.ui").toggle_quick_menu()<CR>
+  nnoremap <leader>hn :lua require("harpoon.ui").nav_next()<CR>
+  nnoremap <leader>hp :lua require("harpoon.ui").nav_prev()<CR>
 
   " lsp config
   set completeopt=menuone,noinsert,noselect
