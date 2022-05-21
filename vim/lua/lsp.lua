@@ -73,7 +73,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 -- Capabilities
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-
 -- Elixir LSP
 lspconfig.elixirls.setup {
     cmd = {
@@ -102,7 +101,8 @@ lspconfig.tsserver.setup {
 
 -- Lua LSP
 local sumneko_root_path = utils.get_path_with_home(".config/nvim/lua-language-server")
-local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
+local sumneko_os_path = utils.get_by_os("Linux", "macOS")
+local sumneko_binary = sumneko_root_path .. "/bin/" .. sumneko_os_path .. "/lua-language-server"
 lspconfig.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
     on_attach = on_attach,
@@ -154,6 +154,12 @@ lspconfig.efm.setup {
 
 -- Vim LSP
 lspconfig.vimls.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- Bash LSP
+lspconfig.bashls.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- Python LSP
+lspconfig.jedi_language_server.setup {on_attach = on_attach, capabilities = capabilities}
 
 -- Golang LSP
 lspconfig.gopls.setup {
