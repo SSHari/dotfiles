@@ -41,28 +41,20 @@ end
 
 -- Set up nvim-cmp
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
-  mapping = {
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' }
-  }, {
-    { name = 'buffer' }
-  })
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end
+    },
+    mapping = {
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
+        ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+        ['<C-e>'] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
+        ['<CR>'] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    },
+    sources = cmp.config.sources({{name = 'nvim_lsp'}, {name = 'vsnip'}}, {{name = 'buffer'}})
 })
 
 -- Diagnostics
@@ -71,14 +63,13 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
                  {underline = true, virtual_text = false, signs = true, update_in_insert = true})
 
 -- Capabilities
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol
+                                                                     .make_client_capabilities())
 
 -- Elixir LSP
 lspconfig.elixirls.setup {
-    cmd = {
-        utils.get_path_with_home(
-            ".config/nvim/elixir-language-server/language_server/language_server.sh")
-    },
+    cmd = {utils.get_path_with_home(
+        ".config/nvim/elixir-language-server/language_server/language_server.sh")},
     on_attach = function(client, bufnr)
         -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
         client.resolved_capabilities.document_formatting = vim.bo.filetype ~= 'eelixir'
@@ -124,20 +115,12 @@ lspconfig.sumneko_lua.setup {
 }
 
 -- EFM LSP
-local lua_format = utils.get_path_with_home(
-                       ".asdf/installs/lua/5.4.3/luarocks/lib/luarocks/rocks-5.4/luaformatter/scm-1/bin/lua-format")
 local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
 local html_beautifier = utils.get_path_with_home(".asdf/installs/ruby/3.0.1/bin/htmlbeautifier")
 
 local efm_languages = {
     eelixir = {{formatCommand = html_beautifier, formatStdin = true}},
-    lua = {
-        {
-            formatCommand = lua_format
-                .. " -i --no-keep-simple-function-one-line --column-limit=100 --no-break-after-operator --break-after-table-lb",
-            formatStdin = true
-        }
-    },
+    lua = {{formatCommand = "lua-format", formatStdin = true}},
     javascript = {{formatCommand = prettier, formatStdin = true}},
     javascriptreact = {{formatCommand = prettier, formatStdin = true}},
     typescript = {{formatCommand = prettier, formatStdin = true}},
@@ -163,12 +146,7 @@ lspconfig.jedi_language_server.setup {on_attach = on_attach, capabilities = capa
 
 -- Golang LSP
 lspconfig.gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    gopls = {
-      analyses = {unusedparams = true},
-      staticcheck = true
-    }
-  }
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
 }

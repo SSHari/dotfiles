@@ -9,19 +9,17 @@ utils.USER = vim.fn.expand("$USER")
 -- Return the relevant value based on the System OS
 utils.get_by_os = function(linux, mac)
     if utils.OS == "Linux" then
-      return linux
+        return linux
     elseif utils.OS == "macOS" then
-      return mac
+        return mac
     else
-      error(string.format("The System OS `%s` isn't valid", utils.OS))
+        error(string.format("The System OS `%s` isn't valid", utils.OS))
     end
 end
 
--- Prepend relative path with home/$USER/
+-- Prepend relative path with /<prefix>/$USER/
 utils.get_path_with_home = function(path)
-    local linux_path = "/home/" .. utils.USER .. "/" .. path
-    local mac_path = "~/" .. path
-    return utils.get_by_os(linux_path, mac_path)
+    return utils.get_by_os("/home/", "/Users/") .. utils.USER .. "/" .. path
 end
 
 return utils

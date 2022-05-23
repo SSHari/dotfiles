@@ -13,12 +13,7 @@ telescope.setup {
         grep_previewer = previewers.vim_buffer_vimgrep.new,
         qflist_previewer = previewers.vim_buffer_qflist.new
     },
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true
-        }
-    }
+    extensions = {fzy_native = {override_generic_sorter = false, override_file_sorter = true}}
 }
 
 telescope.load_extension('fzy_native')
