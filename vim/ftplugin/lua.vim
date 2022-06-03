@@ -1,3 +1,7 @@
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
 augroup LuaFileTypePlugins
   autocmd!
   " Format on save
