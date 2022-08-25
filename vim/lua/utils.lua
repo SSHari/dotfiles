@@ -22,4 +22,10 @@ utils.get_path_with_home = function(path)
     return utils.get_by_os("/home/", "/Users/") .. utils.USER .. "/" .. path
 end
 
+-- Execute the current lua file
+utils.write_and_source = function()
+    vim.api.nvim_command("w")
+    vim.api.nvim_command("source %")
+end
+
 return utils

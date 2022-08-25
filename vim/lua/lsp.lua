@@ -103,12 +103,13 @@ lspconfig.sumneko_lua.setup {
     settings = {
         Lua = {
             runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
-            diagnostics = {globals = {'vim'}},
+            diagnostics = {globals = {'vim', 'P'}},
             workspace = {
                 library = {
                     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
                     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-                }
+                },
+                ignoreDir = {"undodir"}
             },
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {enable = false}
@@ -127,6 +128,7 @@ local efm_languages = {
     javascriptreact = {{formatCommand = prettier, formatStdin = true}},
     typescript = {{formatCommand = prettier, formatStdin = true}},
     typescriptreact = {{formatCommand = prettier, formatStdin = true}},
+    markdown = {{formatCommand = prettier, formatStdin = true}},
     mdx = {{formatCommand = prettier, formatStdin = true}}
 }
 

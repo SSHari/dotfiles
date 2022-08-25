@@ -67,6 +67,11 @@ if has('nvim')
   nnoremap <leader>hn :lua require("harpoon.ui").nav_next()<CR>
   nnoremap <leader>hp :lua require("harpoon.ui").nav_prev()<CR>
 
+  " Utils
+  nnoremap <leader><leader>x :lua require("utils").write_and_source()<CR>
+
   " lsp config
   set completeopt=menuone,noinsert,noselect
+
+  call SourceLocalFile("~/.vim/config/plugin_remaps_local.vim")
 endif
