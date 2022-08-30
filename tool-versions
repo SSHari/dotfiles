@@ -11,7 +11,7 @@ hub v2.14.2
 jq 1.6
 kubectl 1.21.1
 lua 5.4.3
-neovim stable
+neovim nightly
 nodejs 16.14.0
 packer 1.7.3
 postgres 13.3

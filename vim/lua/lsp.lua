@@ -4,7 +4,7 @@ local lspconfig = require('lspconfig')
 local utils = require('utils')
 
 -- Set up on base attach function
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
@@ -20,7 +20,7 @@ local on_attach = function(client, bufnr)
 
     -- Builds an lsp diagnostic command
     local function diagnostic_cmd(command)
-        return '<cmd>lua vim.lsp.diagnostic.' .. command .. '()<CR>'
+        return '<cmd>lua vim.diagnostic.' .. command .. '()<CR>'
     end
 
     -- Mappings
@@ -28,15 +28,12 @@ local on_attach = function(client, bufnr)
 
     buf_set_keymap('n', '<leader>g', buf_cmd('definition'), opts)
     buf_set_keymap('n', '<leader>i', buf_cmd('hover'), opts)
-    buf_set_keymap('n', '<leader>d', diagnostic_cmd('show_line_diagnostics'), opts)
+    buf_set_keymap('n', '<leader>d', diagnostic_cmd("open_float"), opts)
     buf_set_keymap('n', '<leader>dp', diagnostic_cmd('goto_prev'), opts)
     buf_set_keymap('n', '<leader>dn', diagnostic_cmd('goto_next'), opts)
 
     -- Enable manual completion via <c-x><c-o>
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Disable Highlight in favor of TreeSitter
-    client.resolved_capabilities.document_highlight = false
 end
 
 -- Set up nvim-cmp
@@ -59,11 +56,6 @@ cmp.setup({
     sources = cmp.config.sources({{name = 'nvim_lsp'}, {name = 'vsnip'}}, {{name = 'buffer'}})
 })
 
--- Diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
-                 {underline = true, virtual_text = false, signs = true, update_in_insert = true})
-
 -- Capabilities
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol
                                                                      .make_client_capabilities())
@@ -74,7 +66,7 @@ lspconfig.elixirls.setup {
         ".config/nvim/elixir-language-server/language_server/language_server.sh")},
     on_attach = function(client, bufnr)
         -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
-        client.resolved_capabilities.document_formatting = vim.bo.filetype ~= 'eelixir'
+        client.server_capabilities.documentFormattingProvider = vim.bo.filetype ~= 'eelixir'
         on_attach(client, bufnr)
     end,
     capabilities = capabilities
@@ -84,11 +76,10 @@ lspconfig.elixirls.setup {
 lspconfig.tsserver.setup {
     on_attach = function(client, bufnr)
         -- Disable typescript formatting in favor of prettier
-        client.resolved_capabilities.document_formatting = false
+        client.server_capabilities.documentFormattingProvider = false
 
         on_attach(client, bufnr)
     end,
-    settings = {documentFormatting = false},
     capabilities = capabilities
 }
 
@@ -96,6 +87,10 @@ lspconfig.tsserver.setup {
 local sumneko_root_path = utils.get_path_with_home(".config/nvim/lua-language-server")
 local sumneko_os_path = utils.get_by_os("Linux", "macOS")
 local sumneko_binary = sumneko_root_path .. "/bin/" .. sumneko_os_path .. "/lua-language-server"
+local get_lua_lsp_library_files = function()
+    local runtime_files = vim.api.nvim_get_runtime_file("", true)
+    table.insert(runtime_files, vim.fn.expand("$VIMRUNTIME/lua"))
+end
 lspconfig.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
     on_attach = on_attach,
@@ -104,13 +99,7 @@ lspconfig.sumneko_lua.setup {
         Lua = {
             runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
             diagnostics = {globals = {'vim', 'P'}},
-            workspace = {
-                library = {
-                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-                },
-                ignoreDir = {"undodir"}
-            },
+            workspace = {library = get_lua_lsp_library_files(), ignoreDir = {"undodir"}},
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {enable = false}
         }
