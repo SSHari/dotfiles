@@ -28,6 +28,10 @@ if has('nvim')
   " Workflow plugins
   Plug 'ThePrimeagen/git-worktree.nvim'
   Plug 'ThePrimeagen/harpoon'
+
+  " TheSSHGuy Plugins
+  Plug 'SSHari/jest.nvim'
+  Plug 'SSHari/vitest.nvim'
 endif
 
 " Themes
