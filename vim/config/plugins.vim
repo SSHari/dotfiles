@@ -37,9 +37,7 @@ if has('nvim')
 endif
 
 " Themes
-Plug 'gruvbox-community/gruvbox'
-Plug 'folke/tokyonight.nvim'
-Plug 'savq/melange'
+Plug 'folke/tokyonight.nvim', {'branch': 'main'}
 
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-vinegar'
@@ -51,7 +49,7 @@ call plug#end()
 " Configuration
 "--------------
 " theme
-colorscheme melange
+colorscheme tokyonight-night
 
 if has('nvim')
   " Telescope
