@@ -117,13 +117,14 @@ local efm_languages = {
     typescript = {{formatCommand = prettier, formatStdin = true}},
     typescriptreact = {{formatCommand = prettier, formatStdin = true}},
     markdown = {{formatCommand = prettier, formatStdin = true}},
-    mdx = {{formatCommand = prettier, formatStdin = true}}
+    mdx = {{formatCommand = prettier, formatStdin = true}},
+    rust = {{formatCommand = "rustfmt", formatStdin = true}}
 }
 
 lspconfig.efm.setup {
     on_init = function()
         local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs", "*.eex",
-                         "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx"}
+                         "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx", "*.rs"}
 
         vim.api.nvim_create_autocmd("BufWritePost", {
             group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
