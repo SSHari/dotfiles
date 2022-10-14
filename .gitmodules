@@ -9,3 +9,15 @@
 	path = config/nvim/elixir-language-server
 	url = https://github.com/elixir-lsp/elixir-ls.git
 	ignore = dirty
+[submodule "zsh/plugins/zsh-autosuggestions"]
+	path = zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "zsh/plugins/zsh-syntax-highlighting"]
+	path = zsh/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh/plugins/zsh-vim-mode"]
+	path = zsh/plugins/zsh-vim-mode
+	url = https://github.com/softmoth/zsh-vim-mode.git
+[submodule "zsh/plugins/zsh-history-substring-search"]
+	path = zsh/plugins/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git

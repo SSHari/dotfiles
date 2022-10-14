@@ -25,3 +25,6 @@ fi
 
 autoload -U +X bashcompinit && bashcompinit
 
+# Configure Plugins
+source ~/.zsh/plugins/init.zsh
+
