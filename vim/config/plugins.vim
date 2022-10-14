@@ -13,6 +13,8 @@ if has('nvim')
   Plug 'hrsh7th/cmp-vsnip'
   Plug 'hrsh7th/vim-vsnip'
 
+  Plug 'williamboman/mason.nvim'
+
   " Tree Sitter
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -59,7 +61,7 @@ if has('nvim')
   nnoremap <leader>p :Telescope git_files<CR>
   nnoremap <leader>H :Telescope help_tags<CR>
   nnoremap <leader>/ :Telescope live_grep<CR>
-  nnoremap <leader>dot :lua require('_telescope').search_dotfiles()<CR>
+  nnoremap <leader>dot :lua require('plugins').telescope.search_dotfiles()<CR>
 
   " Git Worktrees
   nnoremap <leader>gw :lua require('telescope').extensions.git_worktree.git_worktrees()<CR>

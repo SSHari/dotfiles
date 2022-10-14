@@ -1,7 +1,3 @@
 require('globals')
 require('lsp')
-require('_telescope')
-require('treesitter')
-require('_git-worktree')
-require('_jest')
-require('_vitest')
+require('plugins')
