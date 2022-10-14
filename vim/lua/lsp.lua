@@ -154,3 +154,12 @@ lspconfig.gopls.setup {
     capabilities = capabilities,
     settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
 }
+
+-- Rust LSP
+lspconfig.rust_analyzer.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- CSS LSP
+lspconfig.cssls.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- Tailwind LSP
+lspconfig.tailwindcss.setup {on_attach = on_attach, capabilities = capabilities}
