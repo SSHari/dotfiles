@@ -77,7 +77,6 @@ lspconfig.tsserver.setup {
     on_attach = function(client, bufnr)
         -- Disable typescript formatting in favor of prettier
         client.server_capabilities.documentFormattingProvider = false
-
         on_attach(client, bufnr)
     end,
     capabilities = capabilities
@@ -122,6 +121,18 @@ local efm_languages = {
 }
 
 lspconfig.efm.setup {
+    on_init = function()
+        local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs", "*.eex",
+                         "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx"}
+
+        vim.api.nvim_create_autocmd("BufWritePost", {
+            group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
+            pattern = pattern,
+            callback = function()
+                vim.lsp.buf.format({timeout_ms = 2000})
+            end
+        })
+    end,
     init_options = {documentFormatting = true},
     filetypes = vim.tbl_keys(efm_languages),
     settings = {rootMarkers = {".git/", "package.json"}, languages = efm_languages},
