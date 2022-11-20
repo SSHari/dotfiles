@@ -195,3 +195,6 @@ lspconfig.cssls.setup {on_attach = on_attach, capabilities = capabilities}
 
 -- Tailwind LSP
 lspconfig.tailwindcss.setup {on_attach = on_attach, capabilities = capabilities}
+
+-- Yaml LSP
+lspconfig.yamlls.setup {on_attach = on_attach, capabilities = capabilities}
