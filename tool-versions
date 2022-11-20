@@ -10,7 +10,7 @@ jq 1.6
 kubectl 1.25.2
 lua 5.4.3
 neovim nightly
-nodejs 18.10.0
+nodejs 18.12.1
 python 3.10.8
 ripgrep 13.0.0
 rust 1.64.0
