@@ -28,3 +28,5 @@ autoload -U +X bashcompinit && bashcompinit
 # Configure Plugins
 source ~/.zsh/plugins/init.zsh
 
+# Validation
+source ~/.zsh/validate.zsh

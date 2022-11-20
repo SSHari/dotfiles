@@ -17,9 +17,6 @@ function global() {
 # PATH Configuration
 PATH="$HOME/.bin:$PATH"
 
-# Setup asdf
-source /usr/local/opt/asdf/libexec/asdf.sh
-
 # Set nvim as the default editor
 export EDITOR='nvim'
 export VISUAL='nvim'
