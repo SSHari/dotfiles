@@ -1,6 +1,7 @@
 -- Local Variables and Functions
 local cmp = require('cmp')
 local lspconfig = require('lspconfig')
+local tabnine = require('cmp_tabnine.config')
 local utils = require('utils')
 
 -- Set up on base attach function
@@ -53,12 +54,26 @@ cmp.setup({
         ['<C-e>'] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
         ['<CR>'] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
-    sources = cmp.config.sources({{name = 'nvim_lsp'}, {name = 'vsnip'}}, {{name = 'buffer'}})
+    sources = cmp.config.sources({{name = 'nvim_lsp'}, {name = 'nvim_lua'}, {name = 'cmp_tabnine'},
+                                  {name = 'path'}, {name = 'buffer'}})
+})
+
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({{name = 'cmdline'}, {name = 'buffer'}})
+})
+
+tabnine.setup({
+    max_lines = 1000,
+    max_num_results = 20,
+    sort = true,
+    run_on_every_keystroke = true,
+    snippet_placeholder = '..',
+    show_prediction_strength = true
 })
 
 -- Capabilities
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol
-                                                                     .make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Elixir LSP
 lspconfig.elixirls.setup {
