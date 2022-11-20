@@ -94,7 +94,23 @@ lspconfig.tsserver.setup {
         client.server_capabilities.documentFormattingProvider = false
         on_attach(client, bufnr)
     end,
-    capabilities = capabilities
+    capabilities = capabilities,
+    handlers = {
+        ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+            if (result) then
+                -- Filter out diagnostics that we don't care about
+                -- Diagnostic codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+                local diagnostics = {}
+                for _, diagnostic in ipairs(result.diagnostics) do
+                    if (diagnostic.code ~= 80001) then
+                        table.insert(diagnostics, diagnostic)
+                    end
+                end
+                result.diagnostics = diagnostics
+            end
+            return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+        end
+    }
 }
 
 -- Lua LSP
