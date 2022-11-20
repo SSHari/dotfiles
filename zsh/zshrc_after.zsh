@@ -14,6 +14,11 @@ function global() {
   npm list -g --depth=0
 }
 
+function zla() {
+  vim ~/.zshrc_local_after
+  source ~/.zshrc
+}
+
 # PATH Configuration
 PATH="$HOME/.bin:$PATH"
 
@@ -22,13 +27,23 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 
 # Set up kubectl
-source <(kubectl completion zsh)
-alias k=kubectl
-compdef __start_kubectl k
+if command -v kubectl &> /dev/null; then
+  source <(kubectl completion zsh)
+  alias k=kubectl
+  compdef __start_kubectl k
+fi
 
 # Set up helm
-source <(helm completion zsh)
+if command -v helm &> /dev/null; then
+  source <(helm completion zsh)
+fi
 
-# Set Neovim OS for internal config (Linux or macOS)
-# Set in zshrc_local_after
-# export NEOVIM_OS='macOS'
+# Add hub (git wrapper)
+if command -v hub &> /dev/null; then
+  eval "$(hub alias -s)"
+fi
+
+# Add direnv Configuration
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
