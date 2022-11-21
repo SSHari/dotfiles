@@ -3,7 +3,6 @@ local M = {}
 -- Basic Plugins
 require('git-worktree').setup({})
 require('jest').setup({init_type = 'autocmd'})
-require('mason').setup()
 require('vitest').setup({init_type = 'autocmd'})
 
 -- Telescope

@@ -15,6 +15,7 @@ if has('nvim')
   Plug 'hrsh7th/vim-vsnip'
 
   Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
 
   " Tree Sitter
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

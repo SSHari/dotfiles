@@ -1,6 +1,5 @@
 -- Local Variables and Functions
 local cmp = require('cmp')
-local lspconfig = require('lspconfig')
 local tabnine = require('cmp_tabnine.config')
 local utils = require('utils')
 
@@ -75,126 +74,133 @@ tabnine.setup({
 -- Capabilities
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- Elixir LSP
-lspconfig.elixirls.setup {
-    cmd = {utils.get_path_with_home(
-        ".config/nvim/elixir-language-server/language_server/language_server.sh")},
-    on_attach = function(client, bufnr)
-        -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
-        client.server_capabilities.documentFormattingProvider = vim.bo.filetype ~= 'eelixir'
-        on_attach(client, bufnr)
-    end,
-    capabilities = capabilities
+-- LSP Setup
+local lspconfig = require('lspconfig')
+local mason_registry = require('mason-registry')
+local mason_lspconfig = require('mason-lspconfig')
+
+require('mason').setup()
+mason_lspconfig.setup {
+    ensure_installed = {"bashls", "cssls", "efm", "elixirls", "gopls", "jedi_language_server",
+                        "rust_analyzer", "sumneko_lua", "tailwindcss", "tsserver", "yamlls", "vimls"},
+    automatic_installation = true
 }
 
--- TypeScript LSP
-lspconfig.tsserver.setup {
-    on_attach = function(client, bufnr)
-        -- Disable typescript formatting in favor of prettier
-        client.server_capabilities.documentFormattingProvider = false
-        on_attach(client, bufnr)
+local mappings = mason_lspconfig.get_mappings().lspconfig_to_mason
+mason_lspconfig.setup_handlers {
+    function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
+        lspconfig[server_name].setup {on_attach = on_attach, capabilities = capabilities}
     end,
-    capabilities = capabilities,
-    handlers = {
-        ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-            if (result) then
-                -- Filter out diagnostics that we don't care about
-                -- Diagnostic codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
-                local diagnostics = {}
-                for _, diagnostic in ipairs(result.diagnostics) do
-                    if (diagnostic.code ~= 80001) then
-                        table.insert(diagnostics, diagnostic)
-                    end
-                end
-                result.diagnostics = diagnostics
-            end
-            return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
-        end
-    }
-}
+    ["efm"] = function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
 
--- Lua LSP
-local sumneko_root_path = utils.get_path_with_home(".config/nvim/lua-language-server")
-local sumneko_os_path = utils.get_by_os("Linux", "macOS")
-local sumneko_binary = sumneko_root_path .. "/bin/" .. sumneko_os_path .. "/lua-language-server"
-local get_lua_lsp_library_files = function()
-    local runtime_files = vim.api.nvim_get_runtime_file("", true)
-    table.insert(runtime_files, vim.fn.expand("$VIMRUNTIME/lua"))
-end
-lspconfig.sumneko_lua.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
-            diagnostics = {globals = {'vim', 'P'}},
-            workspace = {library = get_lua_lsp_library_files(), ignoreDir = {"undodir"}},
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {enable = false}
+        local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
+        local html_beautifier = utils.get_path_with_home(
+                                    ".asdf/installs/ruby/3.0.1/bin/htmlbeautifier")
+
+        local efm_languages = {
+            eelixir = {{formatCommand = html_beautifier, formatStdin = true}},
+            lua = {{formatCommand = "lua-format", formatStdin = true}},
+            javascript = {{formatCommand = prettier, formatStdin = true}},
+            javascriptreact = {{formatCommand = prettier, formatStdin = true}},
+            typescript = {{formatCommand = prettier, formatStdin = true}},
+            typescriptreact = {{formatCommand = prettier, formatStdin = true}},
+            markdown = {{formatCommand = prettier, formatStdin = true}},
+            mdx = {{formatCommand = prettier, formatStdin = true}},
+            rust = {{formatCommand = "rustfmt", formatStdin = true}}
         }
-    }
-}
 
--- EFM LSP
-local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
-local html_beautifier = utils.get_path_with_home(".asdf/installs/ruby/3.0.1/bin/htmlbeautifier")
+        lspconfig[server_name].setup {
+            on_init = function()
+                local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs",
+                                 "*.eex", "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx",
+                                 "*.rs"}
 
-local efm_languages = {
-    eelixir = {{formatCommand = html_beautifier, formatStdin = true}},
-    lua = {{formatCommand = "lua-format", formatStdin = true}},
-    javascript = {{formatCommand = prettier, formatStdin = true}},
-    javascriptreact = {{formatCommand = prettier, formatStdin = true}},
-    typescript = {{formatCommand = prettier, formatStdin = true}},
-    typescriptreact = {{formatCommand = prettier, formatStdin = true}},
-    markdown = {{formatCommand = prettier, formatStdin = true}},
-    mdx = {{formatCommand = prettier, formatStdin = true}},
-    rust = {{formatCommand = "rustfmt", formatStdin = true}}
-}
-
-lspconfig.efm.setup {
-    on_init = function()
-        local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs", "*.eex",
-                         "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx", "*.rs"}
-
-        vim.api.nvim_create_autocmd("BufWritePost", {
-            group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
-            pattern = pattern,
-            callback = function()
-                vim.lsp.buf.format({timeout_ms = 2000})
-            end
-        })
+                vim.api.nvim_create_autocmd("BufWritePost", {
+                    group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
+                    pattern = pattern,
+                    callback = function()
+                        vim.lsp.buf.format({timeout_ms = 2000})
+                    end
+                })
+            end,
+            init_options = {documentFormatting = true},
+            filetypes = vim.tbl_keys(efm_languages),
+            settings = {rootMarkers = {".git/", "package.json"}, languages = efm_languages},
+            capabilities = capabilities
+        }
     end,
-    init_options = {documentFormatting = true},
-    filetypes = vim.tbl_keys(efm_languages),
-    settings = {rootMarkers = {".git/", "package.json"}, languages = efm_languages},
-    capabilities = capabilities
+    ["elixirls"] = function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
+
+        lspconfig[server_name].setup {
+            on_attach = function(client, bufnr)
+                -- Disable formatting for Elixir Templates (eelixir) in favor of htmlbeautifier
+                client.server_capabilities.documentFormattingProvider = vim.bo.filetype ~= 'eelixir'
+                on_attach(client, bufnr)
+            end,
+            capabilities = capabilities
+        }
+    end,
+    ["gopls"] = function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
+
+        lspconfig[server_name].setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
+        }
+    end,
+    ["sumneko_lua"] = function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
+
+        local get_lua_lsp_library_files = function()
+            local runtime_files = vim.api.nvim_get_runtime_file("", true)
+            table.insert(runtime_files, vim.fn.expand("$VIMRUNTIME/lua"))
+        end
+
+        lspconfig[server_name].setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
+                    diagnostics = {globals = {'vim', 'P'}},
+                    workspace = {library = get_lua_lsp_library_files(), ignoreDir = {"undodir"}},
+                    -- Do not send telemetry data containing a randomized but unique identifier
+                    telemetry = {enable = false}
+                }
+            }
+        }
+    end,
+    ["tsserver"] = function(server_name)
+        if (not mason_registry.is_installed(mappings[server_name])) then return end
+
+        lspconfig[server_name].setup {
+            on_attach = function(client, bufnr)
+                -- Disable typescript formatting in favor of prettier
+                client.server_capabilities.documentFormattingProvider = false
+                on_attach(client, bufnr)
+            end,
+            capabilities = capabilities,
+            handlers = {
+                ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+                    if (result) then
+                        -- Filter out diagnostics that we don't care about
+                        -- Diagnostic codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+                        local diagnostics = {}
+                        for _, diagnostic in ipairs(result.diagnostics) do
+                            if (diagnostic.code ~= 80001) then
+                                table.insert(diagnostics, diagnostic)
+                            end
+                        end
+                        result.diagnostics = diagnostics
+                    end
+                    return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+                end
+            }
+        }
+    end
 }
 
--- Vim LSP
-lspconfig.vimls.setup {on_attach = on_attach, capabilities = capabilities}
-
--- Bash LSP
-lspconfig.bashls.setup {on_attach = on_attach, capabilities = capabilities}
-
--- Python LSP
-lspconfig.jedi_language_server.setup {on_attach = on_attach, capabilities = capabilities}
-
--- Golang LSP
-lspconfig.gopls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
-}
-
--- Rust LSP
-lspconfig.rust_analyzer.setup {on_attach = on_attach, capabilities = capabilities}
-
--- CSS LSP
-lspconfig.cssls.setup {on_attach = on_attach, capabilities = capabilities}
-
--- Tailwind LSP
-lspconfig.tailwindcss.setup {on_attach = on_attach, capabilities = capabilities}
-
--- Yaml LSP
-lspconfig.yamlls.setup {on_attach = on_attach, capabilities = capabilities}
