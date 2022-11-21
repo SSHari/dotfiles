@@ -3,16 +3,6 @@
 "----------
 source ~/.vim/config/functions.vim
 
-"-----------------
-" General Settings
-"-----------------
-source ~/.vim/config/general.vim
-
-"---------
-" Vim Plug
-"---------
-source ~/.vim/config/plugins.vim
-
 "------------------
 " Lua Configuration
 "------------------
