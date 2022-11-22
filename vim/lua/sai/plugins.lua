@@ -55,6 +55,16 @@ M.plugins = require("packer").startup(function(use)
     use "SSHari/jest.nvim"
     use "SSHari/vitest.nvim"
     use "tpope/vim-vinegar"
+    use {
+        "max397574/better-escape.nvim",
+        config = function()
+            require("better_escape").setup {
+                mapping = {"jk", "kj", "jj", "kk"},
+                timeout = 200,
+                clear_empty_lines = true
+            }
+        end
+    }
 
     -- Visual
     use {"folke/tokyonight.nvim", branch = "main"}

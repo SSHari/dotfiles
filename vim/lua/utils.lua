@@ -42,7 +42,17 @@ local ProxyModule = {
     }
 }
 
--- opts = { module = string, silent<optional> = boolean }
+-- Options for the prequire function
+---@class PRequireOptions
+---@field module string
+---@field silent? boolean
+
+-- Requires a module in protected mode
+-- and returns a ProxyModule if the module
+-- can't be found. The ProxyModule allows
+-- access to arbitrary fields to avoid errors.
+--
+---@param opts PRequireOptions
 utils.prequire = function(opts)
     local module = opts.module
     local silent = opts.silent or false
