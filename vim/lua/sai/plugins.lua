@@ -50,10 +50,13 @@ M.plugins = require("packer").startup(function(use)
     use({"iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end})
 
     -- Workflow plugins
-    use "ThePrimeagen/git-worktree.nvim"
+    use {"ThePrimeagen/git-worktree.nvim", config = function() require("git-worktree").setup {} end}
     use "ThePrimeagen/harpoon"
-    use "SSHari/jest.nvim"
-    use "SSHari/vitest.nvim"
+    use {"SSHari/jest.nvim", config = function() require("jest").setup {init_type = "autocmd"} end}
+    use {
+        "SSHari/vitest.nvim",
+        config = function() require("vitest").setup {init_type = "autocmd"} end
+    }
     use "tpope/vim-vinegar"
     use {
         "max397574/better-escape.nvim",
@@ -76,7 +79,7 @@ M.plugins = require("packer").startup(function(use)
     -----------------------
     -- Local Packer Plugins
     -----------------------
-    utils.prequire({module = "sai.local", silent = true}).packer_startup(use)
+    utils.prequire({"sai.local", silent = true}).packer_startup(use)
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
@@ -85,11 +88,6 @@ end)
 
 -- Theme
 vim.cmd("colorscheme tokyonight-night")
-
--- Configuration
-utils.prequire({module = "git-worktree"}).setup {}
-utils.prequire({module = "jest"}).setup {init_type = "autocmd"}
-utils.prequire({module = "vitest"}).setup {init_type = "autocmd"}
 
 require("sai.harpoon")
 require("sai.telescope")

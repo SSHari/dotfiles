@@ -6,4 +6,4 @@ require("lsp")
 require("sai.keymaps")
 
 -- Local Configuration
-require("utils").prequire({module = "sai.local", silent = true}).local_setup()
+require("utils").prequire({"sai.local", silent = true}).local_setup()

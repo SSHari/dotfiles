@@ -1,7 +1,7 @@
 -- Local Variables and Functions
-local cmp = require("cmp")
-local tabnine = require("cmp_tabnine.config")
 local utils = require("utils")
+local cmp = utils.prequire("cmp")
+local tabnine = utils.prequire("cmp_tabnine.config")
 
 -- Set up on base attach function
 local on_attach = function(_, bufnr)
@@ -62,14 +62,14 @@ tabnine.setup({
 })
 
 -- Capabilities
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = utils.prequire("cmp_nvim_lsp").default_capabilities()
 
 -- LSP Setup
-local lspconfig = require("lspconfig")
-local mason_registry = require("mason-registry")
-local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = utils.prequire("lspconfig")
+local mason_registry = utils.prequire("mason-registry")
+local mason_lspconfig = utils.prequire("mason-lspconfig")
 
-require("mason").setup()
+utils.prequire("mason").setup()
 mason_lspconfig.setup {
     ensure_installed = {"bashls", "cssls", "efm", "elixirls", "gopls", "jedi_language_server",
                         "rust_analyzer", "sumneko_lua", "tailwindcss", "tsserver", "yamlls", "vimls"},

@@ -42,20 +42,28 @@ local ProxyModule = {
     }
 }
 
--- Options for the prequire function
----@class PRequireOptions
----@field module string
----@field silent? boolean
-
 -- Requires a module in protected mode
 -- and returns a ProxyModule if the module
 -- can't be found. The ProxyModule allows
 -- access to arbitrary fields to avoid errors.
 --
----@param opts PRequireOptions
+---@alias modname string
+---@param opts modname | {[1]: modname, silent?: boolean}
 utils.prequire = function(opts)
-    local module = opts.module
-    local silent = opts.silent or false
+    local module = nil
+    local silent = nil
+
+    if type(opts) == "string" then
+        module = opts
+        silent = false
+    elseif type(opts) == "table" then
+        module = opts[1]
+        silent = opts.silent or false
+    else
+        vim.notify(
+            "Argument to utils.prequire should be a string or a table where the first property is a string and an optional silent property is a boolean")
+        return setmetatable({module = "N/A", silent = true}, ProxyModule.mt)
+    end
 
     vim.validate({module = {module, "string"}, silent = {silent, "boolean"}})
 
