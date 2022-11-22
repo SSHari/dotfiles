@@ -1,4 +1,4 @@
-local utils = require('utils')
+local utils = require("utils")
 
 ----------------
 -- Base Settings
@@ -61,3 +61,4 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
         vim.cmd("normal zR")
     end
 })
+

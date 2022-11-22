@@ -1,0 +1,4 @@
+config/nvim/plugin
+vim/.netrwhist
+vim/lua/sai/local.lua
+vim/undodir

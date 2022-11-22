@@ -28,4 +28,33 @@ utils.write_and_source = function()
     vim.api.nvim_command("source %")
 end
 
+-- Protected Require
+local ProxyModule = {
+    mt = {
+        __call = function(table) return table end,
+        __index = function(table, key)
+            if not table.silent then
+                vim.notify("Failed to get " .. key .. " in module " .. table.module)
+            end
+
+            return table
+        end
+    }
+}
+
+-- opts = { module = string, silent<optional> = boolean }
+utils.prequire = function(opts)
+    local module = opts.module
+    local silent = opts.silent or false
+
+    vim.validate({module = {module, "string"}, silent = {silent, "boolean"}})
+
+    local success, loaded_module = pcall(require, module)
+    if success then return loaded_module end
+
+    if not silent then vim.notify("Failed to load module " .. module) end
+
+    return setmetatable({module = module, silent = silent}, ProxyModule.mt)
+end
+
 return utils
