@@ -34,7 +34,8 @@ local ProxyModule = {
         __call = function(table) return table end,
         __index = function(table, key)
             if not table.silent then
-                vim.notify("Failed to get " .. key .. " in module " .. table.module)
+                vim.notify("Failed to get " .. key .. " in module " .. table.module,
+                           vim.log.levels.WARN)
             end
 
             return table
@@ -60,9 +61,8 @@ utils.prequire = function(opts)
         module = opts[1]
         silent = opts.silent or false
     else
-        vim.notify(
+        error(
             "Argument to utils.prequire should be a string or a table where the first property is a string and an optional silent property is a boolean")
-        return setmetatable({module = "N/A", silent = true}, ProxyModule.mt)
     end
 
     vim.validate({module = {module, "string"}, silent = {silent, "boolean"}})
@@ -70,7 +70,7 @@ utils.prequire = function(opts)
     local success, loaded_module = pcall(require, module)
     if success then return loaded_module end
 
-    if not silent then vim.notify("Failed to load module " .. module) end
+    if not silent then vim.notify("Failed to load module " .. module, vim.log.levels.WARN) end
 
     return setmetatable({module = module, silent = silent}, ProxyModule.mt)
 end

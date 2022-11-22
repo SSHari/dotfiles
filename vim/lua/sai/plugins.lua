@@ -72,6 +72,7 @@ M.plugins = require("packer").startup(function(use)
     -- Visual
     use {"folke/tokyonight.nvim", branch = "main"}
     use "vim-airline/vim-airline"
+    use "rcarriga/nvim-notify"
 
     -- Other
     use "ThePrimeagen/vim-be-good"

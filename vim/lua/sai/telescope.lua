@@ -38,8 +38,7 @@ vim.keymap.set("n", "<leader>dot", search_dotfiles,
                {noremap = true, silent = true, desc = "search dotfiles"})
 
 -- Telescope (Git Worktrees)
-vim.keymap.set("n", "<leader>gw",
-               utils.prequire("telescope").extensions.git_worktree.git_worktrees,
+vim.keymap.set("n", "<leader>gw", utils.prequire("telescope").extensions.git_worktree.git_worktrees,
                {noremap = true, silent = true, desc = "Git Worktree: list work trees"})
 
 vim.keymap.set("n", "<leader>cgw",

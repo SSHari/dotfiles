@@ -1,6 +1,11 @@
--- Order matters
+-- Setup base configuration
 require("globals")
 require("general")
+
+-- Set up notifications
+if pcall(require, "notify") then vim.notify = require("notify") end
+
+-- Order matters
 require("sai.plugins")
 require("lsp")
 require("sai.keymaps")
