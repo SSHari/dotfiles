@@ -1,3 +1,6 @@
+-- Impatient (Faster startups)
+require("utils").prequire("impatient")
+
 -- Setup base configuration
 require("globals")
 require("general")

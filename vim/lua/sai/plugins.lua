@@ -22,6 +22,9 @@ M.plugins = require("packer").startup(function(use)
     -- Packer manages itself
     use "wbthomason/packer.nvim"
 
+    -- Config
+    use "lewis6991/impatient.nvim"
+
     -- LSP
     use "neovim/nvim-lspconfig"
     use "hrsh7th/nvim-cmp"
