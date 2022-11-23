@@ -43,13 +43,12 @@ local ProxyModule = {
     }
 }
 
--- Requires a module in protected mode
--- and returns a ProxyModule if the module
--- can't be found. The ProxyModule allows
--- access to arbitrary fields to avoid errors.
---
 ---@alias modname string
 ---@param opts modname | {[1]: modname, silent?: boolean}
+--
+-- Requires a module in protected mode and returns
+-- a ProxyModule if the module can't be found. The
+-- ProxyModule allows access to arbitrary fields to avoid errors.
 utils.prequire = function(opts)
     local module = nil
     local silent = nil
@@ -73,6 +72,33 @@ utils.prequire = function(opts)
     if not silent then vim.notify("Failed to load module " .. module, vim.log.levels.WARN) end
 
     return setmetatable({module = module, silent = silent}, ProxyModule.mt)
+end
+
+---@alias keymap_builder fun(mode: string|table, lhs: string, rhs: string|function, opts: table): nil
+---@param options { config: function, build_keymaps: fun(builder: keymap_builder): nil }
+---@return { config: function, packer_keymaps: Array<any> }
+--
+-- A function that returns a config for a packer managed plugin
+-- keymap_builder takes the same arguments as vim.keymap.set
+utils.build_module_wrapper = function(options)
+    local packer_keymaps = {}
+    local vim_keymaps = {}
+
+    -- Store the keymaps for later
+    options.build_keymaps(function(mode, lhs, rhs, opts)
+        table.insert(packer_keymaps, {mode, lhs})
+        table.insert(vim_keymaps, {mode, lhs, rhs, opts})
+    end)
+
+    return {
+        config = function()
+            if options.config then options.config() end
+
+            -- Set keymaps from before
+            for _, keymap in ipairs(vim_keymaps) do vim.keymap.set(unpack(keymap)) end
+        end,
+        packer_keymaps = packer_keymaps
+    }
 end
 
 return utils

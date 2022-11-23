@@ -45,16 +45,24 @@ M.plugins = require("packer").startup(function(use)
     -- Telescope
     use "nvim-lua/popup.nvim"
     use "nvim-lua/plenary.nvim"
-    use "nvim-telescope/telescope.nvim"
-    use "nvim-telescope/telescope-fzy-native.nvim"
+    use {
+        "nvim-telescope/telescope.nvim",
+        keys = require("sai.telescope").packer_keymaps,
+        config = function() require("sai.telescope").config() end
+    }
+    use {"nvim-telescope/telescope-fzy-native.nvim", module = "telescope"}
 
     -- Language plugins
-    use "elixir-editors/vim-elixir"
+    use {"elixir-editors/vim-elixir", ft = {"ex", "exs", "eex", "leex"}}
     use({"iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end})
 
     -- Workflow plugins
     use {"ThePrimeagen/git-worktree.nvim", config = function() require("git-worktree").setup {} end}
-    use "ThePrimeagen/harpoon"
+    use {
+        "ThePrimeagen/harpoon",
+        keys = require("sai.harpoon").packer_keymaps,
+        config = function() require("sai.harpoon").config() end
+    }
     use {"SSHari/jest.nvim", config = function() require("jest").setup {init_type = "autocmd"} end}
     use {
         "SSHari/vitest.nvim",
@@ -93,8 +101,6 @@ end)
 -- Theme
 vim.cmd("colorscheme tokyonight-night")
 
-require("sai.harpoon")
-require("sai.telescope")
 require("sai.treesitter")
 
 return M

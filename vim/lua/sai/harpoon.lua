@@ -1,13 +1,17 @@
 local utils = require("utils")
 
-vim.keymap.set("n", "<leader>a", utils.prequire("harpoon.mark").add_file,
-               {noremap = true, silent = true, desc = "Harpoon: set mark"})
+return utils.build_module_wrapper({
+    build_keymaps = function(keymap_set)
+        keymap_set("n", "<leader>a", function() utils.prequire("harpoon.mark").add_file() end,
+                   {noremap = true, silent = true, desc = "Harpoon: set mark"})
 
-vim.keymap.set("n", "<leader>hu", utils.prequire("harpoon.ui").toggle_quick_menu,
-               {noremap = true, silent = true, desc = "Harpoon: toggle quick menu"})
+        keymap_set("n", "<leader>hu", function() utils.prequire("harpoon.ui").toggle_quick_menu() end,
+                   {noremap = true, silent = true, desc = "Harpoon: toggle quick menu"})
 
-vim.keymap.set("n", "<leader>hn", utils.prequire("harpoon.ui").nav_next,
-               {noremap = true, silent = true, desc = "Harpoon: nav next"})
+        keymap_set("n", "<leader>hn", function () utils.prequire("harpoon.ui").nav_next() end,
+                   {noremap = true, silent = true, desc = "Harpoon: nav next"})
 
-vim.keymap.set("n", "<leader>hp", utils.prequire("harpoon.ui").nav_prev,
-               {noremap = true, silent = true, desc = "Harpoon: nav prev"})
+        keymap_set("n", "<leader>hp", function () utils.prequire("harpoon.ui").nav_prev() end,
+                   {noremap = true, silent = true, desc = "Harpoon: nav prev"})
+    end
+})
