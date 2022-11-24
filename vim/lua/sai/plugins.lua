@@ -82,7 +82,12 @@ M.plugins = require("packer").startup(function(use)
 
     -- Visual
     use {"folke/tokyonight.nvim", branch = "main"}
-    use "vim-airline/vim-airline"
+    use "kyazdani42/nvim-web-devicons"
+    use {
+        "nvim-lualine/lualine.nvim",
+        config = function() require("lualine").setup() end,
+        requires = "kyazdani42/nvim-web-devicons"
+    }
     use "rcarriga/nvim-notify"
 
     -- Other
