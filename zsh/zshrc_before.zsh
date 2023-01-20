@@ -8,3 +8,8 @@ zstyle :compinstall filename '<path>/.zshrc_local_before'
 # Set up asdf completions
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
+
+# Set up homebrew completions
+if command -v brew &> /dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi

@@ -2,3 +2,5 @@ config/nvim/plugin
 vim/.netrwhist
 vim/lua/sai/local.lua
 vim/undodir
+
+.DS_STORE
