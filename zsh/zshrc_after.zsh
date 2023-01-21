@@ -5,8 +5,9 @@ alias vim='nvim'
 alias dotfiles='cd ~/.dotfiles'
 alias luamake='~/.config/nvim/lua-language-server/3rd/luamake/luamake'
 
-# Install latest nightly neovim
+# Install latest stable or nightly neovim
 alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'
+alias update-nvim-nightly='asdf uninstall neovim nightly && asdf install neovim nightly'
 
 # Functions
 function global() {

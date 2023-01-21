@@ -31,6 +31,10 @@ return utils.build_module_wrapper({
         keymap_set("n", "<leader>p", ":Telescope git_files<CR>", {noremap = true, silent = true})
         keymap_set("n", "<leader>H", ":Telescope help_tags<CR>", {noremap = true, silent = true})
         keymap_set("n", "<leader>/", ":Telescope live_grep<CR>", {noremap = true, silent = true})
+        keymap_set("n", "<leader>gD", ":Telescope lsp_definitions<CR>",
+                   {noremap = true, silent = true})
+        keymap_set("n", "<leader>gR", ":Telescope lsp_references<CR>",
+                   {noremap = true, silent = true})
         keymap_set("n", "<leader>dot", function()
             utils.prequire("telescope.builtin").git_files({
                 prompt_title = "< Dotfiles >",

@@ -20,7 +20,8 @@ local on_attach = function(_, bufnr)
     -- Mappings
     local opts = {noremap = true, silent = true}
 
-    buf_set_keymap("n", "<leader>g", buf_cmd("definition"), opts)
+    buf_set_keymap("n", "<leader>gd", buf_cmd("definition"), opts)
+    buf_set_keymap("n", "<leader>gr", buf_cmd("references"), opts)
     buf_set_keymap("n", "<leader>i", buf_cmd("hover"), opts)
     buf_set_keymap("n", "<leader>d", diagnostic_cmd("open_float"), opts)
     buf_set_keymap("n", "<leader>dp", diagnostic_cmd("goto_prev"), opts)
