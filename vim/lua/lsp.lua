@@ -73,7 +73,7 @@ local mason_lspconfig = utils.prequire("mason-lspconfig")
 utils.prequire("mason").setup()
 mason_lspconfig.setup {
     ensure_installed = {"bashls", "cssls", "efm", "elixirls", "gopls", "jedi_language_server",
-                        "rust_analyzer", "sumneko_lua", "tailwindcss", "tsserver", "yamlls", "vimls"},
+                        "rust_analyzer", "lua_ls", "tailwindcss", "tsserver", "yamlls", "vimls"},
     automatic_installation = true
 }
 
@@ -89,6 +89,7 @@ mason_lspconfig.setup_handlers {
         local prettier = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}"
         local html_beautifier = utils.get_path_with_home(
                                     ".asdf/installs/ruby/3.0.1/bin/htmlbeautifier")
+        local prismafmt = "./node_modules/.bin/prisma format --stdin-filepath ${INPUT}"
 
         local efm_languages = {
             eelixir = {{formatCommand = html_beautifier, formatStdin = true}},
@@ -99,14 +100,15 @@ mason_lspconfig.setup_handlers {
             typescriptreact = {{formatCommand = prettier, formatStdin = true}},
             markdown = {{formatCommand = prettier, formatStdin = true}},
             mdx = {{formatCommand = prettier, formatStdin = true}},
-            rust = {{formatCommand = "rustfmt", formatStdin = true}}
+            rust = {{formatCommand = "rustfmt", formatStdin = true}},
+            prisma = {{formatCommand = prismafmt, formatStdin = true}}
         }
 
         lspconfig[server_name].setup {
             on_init = function()
                 local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs",
                                  "*.eex", "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx",
-                                 "*.rs"}
+                                 "*.rs", "*.prisma"}
 
                 vim.api.nvim_create_autocmd("BufWritePost", {
                     group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
@@ -141,7 +143,7 @@ mason_lspconfig.setup_handlers {
             settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}
         }
     end,
-    ["sumneko_lua"] = function(server_name)
+    ["lua_ls"] = function(server_name)
         if (not mason_registry.is_installed(mappings[server_name])) then return end
 
         local get_lua_lsp_library_files = function()
