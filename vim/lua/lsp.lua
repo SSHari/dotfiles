@@ -185,8 +185,9 @@ mason_lspconfig.setup_handlers {
                         -- Filter out diagnostics that we don't care about
                         -- Diagnostic codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
                         local diagnostics = {}
+                        local codes_to_ignore = {7016, 80001}
                         for _, diagnostic in ipairs(result.diagnostics) do
-                            if (diagnostic.code ~= 80001) then
+                            if (not utils.list_includes(codes_to_ignore, diagnostic.code)) then
                                 table.insert(diagnostics, diagnostic)
                             end
                         end

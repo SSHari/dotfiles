@@ -101,4 +101,10 @@ utils.build_module_wrapper = function(options)
     }
 end
 
+-- Check if an item is in a list
+utils.list_includes = function(list, value_to_find)
+    for _, value in ipairs(list) do if value == value_to_find then return true end end
+    return false;
+end
+
 return utils
