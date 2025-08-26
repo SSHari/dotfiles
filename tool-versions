@@ -10,7 +10,7 @@ jq 1.6
 kubectl 1.25.2
 lua 5.4.3
 neovim stable
-nodejs 18.12.1
+nodejs 22.14.0
 pnpm 8.6.6
 python 3.10.8
 ripgrep 13.0.0

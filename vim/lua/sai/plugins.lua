@@ -69,14 +69,16 @@ M.plugins = require("packer").startup(function(use)
         config = function() require("vitest").setup {init_type = "autocmd"} end
     }
     use "tpope/vim-vinegar"
+    use({
+        "stevearc/oil.nvim",
+        config = function()
+          require("oil").setup({view_options = {show_hidden = true}})
+        end,
+    })
     use {
         "max397574/better-escape.nvim",
         config = function()
-            require("better_escape").setup {
-                mapping = {"jk", "kj", "jj", "kk"},
-                timeout = 200,
-                clear_empty_lines = true
-            }
+            require("better_escape").setup()
         end
     }
 

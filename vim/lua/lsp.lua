@@ -73,7 +73,7 @@ local mason_lspconfig = utils.prequire("mason-lspconfig")
 utils.prequire("mason").setup()
 mason_lspconfig.setup {
     ensure_installed = {"bashls", "cssls", "efm", "elixirls", "gopls", "jedi_language_server",
-                        "rust_analyzer", "lua_ls", "tailwindcss", "tsserver", "yamlls", "vimls"},
+                        "rust_analyzer", "lua_ls", "tailwindcss", "ts_ls", "yamlls", "vimls"},
     automatic_installation = true
 }
 
@@ -169,7 +169,7 @@ mason_lspconfig.setup_handlers {
             }
         }
     end,
-    ["tsserver"] = function(server_name)
+    ["ts_ls"] = function(server_name)
         if (not mason_registry.is_installed(mappings[server_name])) then return end
 
         lspconfig[server_name].setup {
