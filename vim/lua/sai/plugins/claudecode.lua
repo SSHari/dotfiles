@@ -4,7 +4,7 @@ return {
     dependencies = { "folke/snacks.nvim" },
     config = true,
     keys = {
-      { "<leader>a", nil, desc = "AI/Claude Code" },
+      { "<leader>a", nil, desc = "AI/Claude Code", mode = {"n", "v"} },
       { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
       { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
       { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
