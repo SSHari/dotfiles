@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("sai.utils")
 
 vim.keymap.set("n", "<leader><leader>x", utils.write_and_source,
                {noremap = true, silent = true, desc = "Write file and source it"})
@@ -9,4 +9,3 @@ vim.keymap.set("x", "<leader>y", "\"+y",
 
 vim.keymap.set("n", "<leader>yy", "\"+yy",
                {noremap = true, silent = true, desc = "Copy line to clipboard"})
-

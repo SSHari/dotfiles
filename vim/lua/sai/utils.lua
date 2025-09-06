@@ -74,32 +74,6 @@ utils.prequire = function(opts)
     return setmetatable({module = module, silent = silent}, ProxyModule.mt)
 end
 
----@alias keymap_builder fun(mode: string|table, lhs: string, rhs: string|function, opts: table): nil
----@param options { config: function, build_keymaps: fun(builder: keymap_builder): nil }
----@return { config: function, packer_keymaps: Array<any> }
---
--- A function that returns a config for a packer managed plugin
--- keymap_builder takes the same arguments as vim.keymap.set
-utils.build_module_wrapper = function(options)
-    local packer_keymaps = {}
-    local vim_keymaps = {}
-
-    -- Store the keymaps for later
-    options.build_keymaps(function(mode, lhs, rhs, opts)
-        table.insert(packer_keymaps, {mode, lhs})
-        table.insert(vim_keymaps, {mode, lhs, rhs, opts})
-    end)
-
-    return {
-        config = function()
-            if options.config then options.config() end
-
-            -- Set keymaps from before
-            for _, keymap in ipairs(vim_keymaps) do vim.keymap.set(unpack(keymap)) end
-        end,
-        packer_keymaps = packer_keymaps
-    }
-end
 
 -- Check if an item is in a list
 utils.list_includes = function(list, value_to_find)

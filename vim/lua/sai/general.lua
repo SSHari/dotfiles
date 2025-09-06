@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("sai.utils")
 
 ----------------
 -- Base Settings
@@ -39,6 +39,7 @@ vim.o.tabstop = 2
 -- Key Mappings
 ---------------
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 ------------------------
 -- General Auto Commands

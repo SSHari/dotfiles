@@ -1,18 +1,14 @@
-require("globals")
+local utils = require("sai.utils")
 
--- Impatient (Faster startups)
-require("utils").prequire("impatient")
+utils.prequire("sai.globals")
 
 -- Setup base configuration
-require("general")
+utils.prequire("sai.general")
+utils.prequire("sai.keymaps")
 
--- Set up notifications
-if pcall(require, "notify") then vim.notify = require("notify") end
+-- Setup lazy.nvim
+utils.prequire("sai.config.lazy")
 
--- Order matters
-require("sai.plugins")
-require("lsp")
-require("sai.keymaps")
 
 -- Local Configuration
-require("utils").prequire({"sai.local", silent = true}).local_setup()
+--require("utils").prequire({"sai.local", silent = true}).local_setup()
