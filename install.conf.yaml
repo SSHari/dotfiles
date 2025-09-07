@@ -23,3 +23,5 @@
     # zsh
     ~/.zsh: zsh
     ~/.zshrc: zshrc
+    # kitty
+    ~/.config/kitty: config/kitty

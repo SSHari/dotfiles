@@ -48,3 +48,8 @@ fi
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
+
+# Auto-start tmux only if not already inside tmux
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux attach -t main || tmux new -s main
+fi
