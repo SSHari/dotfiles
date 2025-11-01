@@ -22,6 +22,7 @@ function zla() {
 
 # PATH Configuration
 PATH="$HOME/.bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
 
 # Set nvim as the default editor
 export EDITOR='nvim'
