@@ -31,14 +31,14 @@ end
 local efm_languages = {
   eelixir = {{formatCommand = utils.get_path_with_home(".asdf/installs/ruby/3.0.1/bin/htmlbeautifier"), formatStdin = true}},
   lua = {{formatCommand = "lua-format", formatStdin = true}},
-  javascript = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
-  javascriptreact = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
-  typescript = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
-  typescriptreact = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
-  markdown = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
-  mdx = {{formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  javascript = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  javascriptreact = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  typescript = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  typescriptreact = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  markdown = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+  mdx = {{formatCommand = "npx prettier --stdin-filepath ${INPUT}", formatStdin = true}},
   rust = {{formatCommand = "rustfmt", formatStdin = true}},
-  prisma = {{formatCommand = "./node_modules/.bin/prisma format --stdin-filepath ${INPUT}", formatStdin = true}}
+  prisma = {{formatCommand = "npx prisma format --stdin-filepath ${INPUT}", formatStdin = true}}
 }
 
 -- Server configurations mapping
@@ -49,6 +49,7 @@ local server_configs = {
   jedi_language_server = { cmd = { "jedi-language-server" } },
   rust_analyzer = { cmd = { "rust-analyzer" } },
   tailwindcss = { cmd = { "tailwindcss-language-server", "--stdio" } },
+  terraformls = { cmd = { "terraform-ls", "serve" } },
   yamlls = { cmd = { "yaml-language-server", "--stdio" } },
   vimls = { cmd = { "vim-language-server", "--stdio" } },
   -- Servers with custom on_attach functions
@@ -107,7 +108,7 @@ local server_configs = {
       local pattern = {"*.js", "*.jsx", "*.ts", "*.tsx", "*.lua", "*.ex", "*.exs",
                        "*.eex", "*.leex", "*.go", "*.gomod", "*.gotimpl", "*.md", "*.mdx",
                        "*.rs", "*.prisma"}
-      vim.api.nvim_create_autocmd("BufWritePost", {
+      vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("TheSSHGuy_EFM_Formatter", {clear = true}),
         pattern = pattern,
         callback = function() vim.lsp.buf.format({timeout_ms = 2000}) end
@@ -163,7 +164,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {"bashls", "cssls", "efm", "elixirls", "gopls", "jedi_language_server",
-                          "rust_analyzer", "lua_ls", "tailwindcss", "ts_ls", "yamlls", "vimls"},
+                          "rust_analyzer", "lua_ls", "tailwindcss", "terraformls", "ts_ls", "yamlls", "vimls"},
     },
     dependencies = {
         { "mason-org/mason.nvim", opts = {} },
