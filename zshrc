@@ -23,8 +23,6 @@ if [ -f ~/.zshrc_local_after ]; then
   source ~/.zshrc_local_after
 fi
 
-autoload -U +X bashcompinit && bashcompinit
-
 # Configure Plugins
 source ~/.zsh/plugins/init.zsh
 

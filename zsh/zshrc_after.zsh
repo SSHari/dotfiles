@@ -43,14 +43,13 @@ fi
 # Add hub (git wrapper)
 if command -v hub &> /dev/null; then
   eval "$(hub alias -s)"
+  # Preserve git completions for hub alias
+  if type compdef &> /dev/null; then
+    compdef hub=git
+  fi
 fi
 
 # Add direnv Configuration
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
-fi
-
-# Auto-start tmux only if not already inside tmux
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-  tmux attach -t main || tmux new -s main
 fi
